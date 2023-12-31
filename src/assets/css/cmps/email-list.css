@@ -1,0 +1,6 @@
+.email-list {
+    display:grid;
+    grid-auto-flow: row;
+    list-style-type: none;
+    gap: 3px;    
+}

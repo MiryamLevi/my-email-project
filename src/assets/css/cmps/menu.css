@@ -1,0 +1,16 @@
+.menu {
+    /* display:grid;
+    grid-auto-flow: row;  */
+    color: white;
+    list-style-type: none;
+    width: 15%;
+    gap: 30px;
+}
+
+.menu-item {
+    display: flex;
+    gap: 3px;
+    align-content: start;
+    align-items: flex-start;
+    flex-shrink: 0;
+}

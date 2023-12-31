@@ -1,0 +1,7 @@
+.email-preview{
+    display: flex;
+    gap: 3px;
+    align-items: flex-start;
+    background-color: gray;
+    width: 90%;
+}

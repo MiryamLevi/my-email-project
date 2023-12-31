@@ -1,0 +1,40 @@
+.home {
+    /* text-align: center; */
+    display: flex;
+    gap: 18px;
+
+}
+
+.home h1 {
+    font-size: 40px;
+    margin: 10px;
+}
+
+.home img {
+    width: 500px;
+}
+
+.home article.menu {
+    height: 600px;
+    width: 200px;
+    border-radius: 20px;
+    background-color: white;
+    opacity: 0.5;
+}
+
+.home article.menu-item-content {
+    height: 600px;
+    width: 1000px;
+    border-radius: 20px;
+    background-color: white;
+    opacity: 0.5;
+
+}
+
+.home button.compose {
+    height: 60px;
+    border-radius: 20px;
+    display: 'flex';
+    align-items: 'center';
+    justify-content: 'center';
+}

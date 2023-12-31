@@ -1,0 +1,11 @@
+.email-details {
+    padding: 30px; 
+  }
+  
+  div .details-container {
+    padding-left: 20px; 
+  }
+  
+  .email-details label {
+    cursor: pointer;
+  }
