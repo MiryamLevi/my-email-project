@@ -1,22 +1,39 @@
 import { Home } from "./pages/Home";
-import imgUrl from "./assets/imgs/logo.png";
+import {HashRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { AppFooter } from "./cmps/AppFooter";
+import {AppHeader} from './cmps/AppHeader'
+import { EmailIndex } from "./pages/EmailIndex";
+import { EmailCompose } from "./cmps/EmailCompose";
+import { EmailDetails } from "./cmps/EmailDetails";
+import { Aside } from "./cmps/Aside";
+import { emailService } from "./services/emails.service";
+import { useState } from "react";
 
 export function App() {
+  const [filterBy, setFilterBy] = useState(emailService.getDefaultFilter());
+
   return (
-    <section className="main-app bg">
-      <header className="app-header">
-        <section className="container">
-          <img src={imgUrl} alt="logo" className="logo" />
-        </section>
-      </header>
-
-      <main className="container">
-        <Home />
-      </main>
-
-      <footer>
-        <section className="container">Mails 2023 &copy;</section>
-      </footer>
-    </section>
+    <Router>
+      <section className="main-app bg">
+        <AppHeader />
+        <Aside/>
+        <main className="container main">
+        <Routes>
+          <Route path='/' element={<Home/>}/>
+          <Route path="/inbox" element={<EmailIndex/>} >
+            {/* change the route */}
+            <Route path='/inbox/edit' element={<EmailCompose/>}/> 
+          </Route>
+          <Route path="/inbox/:emailID" element={<EmailDetails/>} />
+          <Route path="/starred" element={<EmailIndex filterBy={filterBy}/>} />
+          <Route path="/sent" element={<EmailIndex/>} />         
+          <Route path="/trash" element={<EmailIndex/>} /> 
+          <Route path="/draft" element={<EmailIndex/>} /> 
+          <Route index element={<Navigate to="/inbox" />} />
+          </Routes>
+        </main>
+        <AppFooter/>
+      </section>
+    </Router>
   );
 }

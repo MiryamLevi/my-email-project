@@ -14,7 +14,7 @@
     width: 500px;
 }
 
-.home article.menu {
+.home article.aside {
     height: 600px;
     width: 200px;
     border-radius: 20px;
@@ -22,14 +22,14 @@
     opacity: 0.5;
 }
 
-.home article.menu-item-content {
+/* .home article.menu-item-content {
     height: 600px;
     width: 1000px;
     border-radius: 20px;
     background-color: white;
     opacity: 0.5;
 
-}
+} */
 
 .home button.compose {
     height: 60px;

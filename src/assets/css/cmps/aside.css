@@ -1,13 +1,15 @@
-.menu {
+.aside {
     /* display:grid;
     grid-auto-flow: row;  */
     color: white;
     list-style-type: none;
     width: 15%;
     gap: 30px;
+    grid-area: a;
+
 }
 
-.menu-item {
+.aside-item {
     display: flex;
     gap: 3px;
     align-content: start;

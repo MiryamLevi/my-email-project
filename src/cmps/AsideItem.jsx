@@ -1,15 +1,14 @@
 import { RiInboxFill } from "react-icons/ri";
-// import { CiStar } from "react-icons/ci";
 import { IoMdStarOutline } from "react-icons/io";
 
 
-export function MenuItem({item})
+export function AsideItem({item})
 {
     return (
-        <article className='menu-item'>
+        <article className='aside-item'>
             {item.name === 'Inbox' && <label ><RiInboxFill /> Inbox</label>}
             {item.name === 'Starred' && <label><IoMdStarOutline/> Starred</label>}
-            {/* {item.name == '' && < />} */}
+            {item.name == 'Draft' && < />}
         </article>
     )
 }

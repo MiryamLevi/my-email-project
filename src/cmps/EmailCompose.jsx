@@ -15,24 +15,47 @@
 
 import { useState } from "react";
 import { emailService } from "../services/emails.service";
+import { Link } from "react-router-dom";
 
 export function EmailCompose() {
   const [email, setEmail] = useState(emailService.createEmail());
 
+  function onEmailSend() {
+    // get all the information from the fields and add an email preview to the "sent" aside menu
+  }
+
+  function handleChange({ target }) {
+    // ----
+    setEmail((prevEmail) => ({ ...prevEmail, ...target }));
+  }
+
+  function onSaveEmail()
+  {
+    
+  }
+
+  const { from, to, subject, body } = email;
   return (
-    <form className="">
+    <form className="compose-form" onSubmit={onSaveEmail}>
+      <Link to="/inbox">
+        <button>x</button>
+      </Link>
       <header>New Email</header>
-      <label>
-        From: <input name="from" type="text"></input>
+      <label htmlFor="from">
+        From:{" "}
+        <input id="from" name="from" value={from} onChange={handleChange} type="email"
+        ></input>
       </label>
-      <label>
-        To: <input name="to" type="text"></input>
+      <label htmlFor="to">
+        To: <input id="to" name="to" type="email" value={to} onChange={handleChange}></input>
       </label>
-      <label>
-        Subject: <input name="subject" type="text"></input>
+      <label htmlFor="subject">
+        Subject: <input name="subject" id="subject" type="text" value={subject} onChange={handleChange}></input>
       </label>
-      <input name="body" type="text"></input>
-      <button type="submit" id="send" name="send"></button>
+      <input name="body" type="text" value={body} onChange={handleChange}></input>
+      <button type="submit" id="send" name="send" onClick={onEmailSend}>
+        Send
+      </button>
     </form>
   );
 }

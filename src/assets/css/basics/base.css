@@ -80,15 +80,15 @@ input {
 
 .main-app {
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas: "h h " "a m" "f f";
 }
 
 .bg {
     /* The image used */
-    background-image: url("/imgs/back.jpg");
+    background-image: url("../../imgs/back.jpg");
   
     /* Full height */
     height: 100%; 
