@@ -1,11 +1,12 @@
 import { EmailPreview } from "./EmailPreview";
 
-export function EmailList({ emails, onRemoveEmail, onEmailPreviewClicked }) {
+export function EmailList({ emails, params, onEmailPreviewClicked }) {
+  console.log('emails list', emails )
   return (
     <ul className="email-list">
       {emails.map((email) => (
-        <li key={email.key}>
-          <EmailPreview email={email} onEmailPreviewClicked={onEmailPreviewClicked}/>
+        <li key={email.id}>
+          <EmailPreview email={email} currentFolder={params.folder} onEmailPreviewClicked={onEmailPreviewClicked}/>
         </li>
       ))}
     </ul>

@@ -2,27 +2,36 @@ import { useEffect, useState } from "react";
 import { emailService } from "../services/emails.service";
 import { EmailList } from "../cmps/EmailList";
 import { EmailFilter } from "../cmps/EmailFilter";
-import { Outlet } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 
-export function EmailIndex() {
+export function EmailIndex({}) {
   const [emails, setEmails] = useState(null);
-  
+  const params = useParams();
   const [filterBy, setFilterBy] = useState(emailService.getDefaultFilter());
+  const [isAscending, setIsAscending] = useState(true);
+
 
   useEffect(() => {
     loadEmails();
   }, [filterBy]);
 
-
   async function loadEmails() {
-    const allEmails = await emailService.query(filterBy);
+    const allEmails = await emailService.query(filterBy,params, isAscending);
     setEmails(allEmails);
-    console.log(allEmails);
+    console.log('allEmails', allEmails);
   }
 
-  function onSetFilter(filterBy)
-  {
-    setFilterBy(prevFilter=>({...prevFilter, ...filterBy}))
+  async function onAddEmail(emailToAdd) {
+    try {
+      const savedEmail = await emailService.save(emailToAdd);
+      setEmails((prevEmails) => ({ ...prevEmails, savedEmail }));
+    } catch (error) {
+      console.log("had issues saving email", error);
+    }
+  }
+
+  function onSetFilter(filterBy) {
+    setFilterBy((prevFilter) => ({ ...prevFilter, ...filterBy }));
   }
 
   async function onRemoveEmail(emailID) {
@@ -46,16 +55,17 @@ export function EmailIndex() {
   }
 
   if (!emails) return <div>"Loading..."</div>;
-  const {subject,} = filterBy
+  const { subject } = filterBy;
   return (
     <section className="email-index">
-      <EmailFilter filterBy={{subject}} onSetFilter={onSetFilter} />
+      <EmailFilter filterBy={{ subject }} onSetFilter={onSetFilter} />
       <EmailList
         emails={emails}
         onRemoveEmail={onRemoveEmail}
         onEmailPreviewClicked={onEmailPreviewClicked}
+        params={params}
       />
-      <Outlet/>
+      <Outlet context={{onAddEmail}}/>
     </section>
   );
 }

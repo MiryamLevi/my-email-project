@@ -15,23 +15,27 @@
 
 import { useState } from "react";
 import { emailService } from "../services/emails.service";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
 
 export function EmailCompose() {
   const [email, setEmail] = useState(emailService.createEmail());
-
-  function onEmailSend() {
-    // get all the information from the fields and add an email preview to the "sent" aside menu
-  }
+  const navigate = useNavigate();
+  const {onAddEmail} = useOutletContext();
 
   function handleChange({ target }) {
-    // ----
-    setEmail((prevEmail) => ({ ...prevEmail, ...target }));
+    let { name, value } = target
+    setEmail((prevEmail) => ({ ...prevEmail, [name]:value }));
+    console.log("email after handleChange: ", email);
   }
 
-  function onSaveEmail()
-  {
-    
+  async function onSaveEmail(ev) {
+    ev.preventDefault();
+    try {
+      await onAddEmail(email)
+      navigate("/inbox");
+    } catch (error) {
+      console.log("had issues saving email", error);
+    }
   }
 
   const { from, to, subject, body } = email;
@@ -43,17 +47,41 @@ export function EmailCompose() {
       <header>New Email</header>
       <label htmlFor="from">
         From:{" "}
-        <input id="from" name="from" value={from} onChange={handleChange} type="email"
+        <input
+          id="from"
+          name="from"
+          value={from}
+          onChange={handleChange}
+          type="email"
         ></input>
       </label>
       <label htmlFor="to">
-        To: <input id="to" name="to" type="email" value={to} onChange={handleChange}></input>
+        To:{" "}
+        <input
+          id="to"
+          name="to"
+          type="email"
+          value={to}
+          onChange={handleChange}
+        ></input>
       </label>
       <label htmlFor="subject">
-        Subject: <input name="subject" id="subject" type="text" value={subject} onChange={handleChange}></input>
+        Subject:{" "}
+        <input
+          name="subject"
+          id="subject"
+          type="text"
+          value={subject}
+          onChange={handleChange}
+        ></input>
       </label>
-      <input name="body" type="text" value={body} onChange={handleChange}></input>
-      <button type="submit" id="send" name="send" onClick={onEmailSend}>
+      <input
+        name="body"
+        type="text"
+        value={body}
+        onChange={handleChange}
+      ></input>
+      <button type="submit" id="send" name="send">
         Send
       </button>
     </form>

@@ -1,38 +1,3 @@
-const temp_emails = [
-  {
-    id: "e101",
-    subject: "Miss you!",
-    body: "Would love to catch up sometimes",
-    isRead: false,
-    isStarred: false,
-    sentAt: 1502976867,
-    removedAt: null, //for later use
-    from: "momo@momo.com",
-    to: "user@appsus.com",
-  },
-  {
-    id: "e102",
-    subject: "Winter Sale!",
-    body: "All the shirts in 50%",
-    isRead: false,
-    isStarred: false,
-    sentAt: 1702976732,
-    removedAt: null, //for later use
-    from: "sales@momo.com",
-    to: "user@appsus.com",
-  },
-  {
-    id: "e103",
-    subject: "Can I come earlier?",
-    body: "I have an appointment in tour clinic tomorrow",
-    isRead: true,
-    isStarred: false,
-    sentAt: 1702976900,
-    removedAt: null, //for later use
-    from: "client@momo.com",
-    to: "user@appsus.com",
-  },
-];
 
 const loggedinUser = {
   email: "user@appsus.com",
@@ -61,17 +26,54 @@ const STORAGE_KEY = "emails";
 
 _createEmails();
 
-async function query(filterBy) {
-  let emails = await storageService.query(STORAGE_KEY);
-  if (filterBy) {
-    var { subject } = filterBy;
-    emails = emails.filter(
-      (email) =>
-        email.subject.toLowerCase().includes(subject.toLowerCase()) ||
-        email.body.toLowerCase().includes(subject.toLowerCase())
-    );
+async function query(filterBy, params, isAscending) {
+  const emails = await storageService.query(STORAGE_KEY);
+  let filteredEmails = emails;
+  if (params.folder === 'starred') {
+      filteredEmails = emails.filter(email => email.isStarred);
+  } else if (params.folder === 'sent') {
+      filteredEmails = emails.filter(email => email.sentAt);
+  } else if (params.folder === 'trash') {
+      filteredEmails = emails.filter(email => email.removedAt);
+  } else if (params.folder === 'inbox') {
+      filteredEmails = emails.filter(email => !email.removedAt);
+  } else if (params.folder === 'drafts') {
+      console.log('drafts');
   }
-  return emails;
+
+  emails.sort((a, b) =>
+      isAscending ? a.sentAt - b.sentAt : b.sentAt - a.sentAt
+  );
+
+  if (!filterBy) return emails;
+
+
+  if (filterBy.txt) {
+      console.log(filterBy);
+      filteredEmails = filteredEmails.filter(email => {
+          const subject = email.subject;
+          const body = email.body;
+          const jointString = [subject, body].join(' ');
+          return jointString.toLowerCase().includes(filterBy.txt.toLowerCase());
+      });
+  }
+
+  if (filterBy.isRead === true) {
+      filteredEmails = filteredEmails.filter(
+          email => email.isRead === filterBy.isRead
+      );
+  }
+
+  if (filterBy.status === 'starred') {
+      filteredEmails = filteredEmails.filter(email => email.isStarred);
+  }
+
+  if (filterBy.removedAt) {
+      filteredEmails = filteredEmails.filter(email => !email.removedAt);
+  }
+
+  return filteredEmails;
+
 }
 
 function getById(id) {

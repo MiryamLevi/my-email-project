@@ -1,9 +1,9 @@
 .aside {
-    /* display:grid;
-    grid-auto-flow: row;  */
+    display:grid;
+    grid-auto-flow: row; 
+    align-content: start;
     color: white;
     list-style-type: none;
-    width: 15%;
     gap: 30px;
     grid-area: a;
 

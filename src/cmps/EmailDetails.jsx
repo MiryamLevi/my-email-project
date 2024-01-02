@@ -17,11 +17,12 @@ export function EmailDetails() {
 
   useEffect(() => {
     loadEmail();
-  }, []);
+  }, [params.emailID]);
 
   async function loadEmail() {
     try{
     const email = await emailService.getById(params.emailID);
+    console.log("specific email", email);
     email.isRead = true;
     setEmail(email);
     }

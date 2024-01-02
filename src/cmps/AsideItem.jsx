@@ -1,14 +1,37 @@
-import { RiInboxFill } from "react-icons/ri";
+import { RiDraftLine, RiInboxFill } from "react-icons/ri";
 import { IoMdStarOutline } from "react-icons/io";
+import { FaRegTrashAlt } from "react-icons/fa";
+import { AiOutlineSend } from "react-icons/ai";
+import { NavLink, Outlet } from "react-router-dom";
 
+export function AsideItem({ item }) {
+  var icon = null;
+  switch (item.name) {
+    case "Inbox":
+      icon = <RiInboxFill />;
+      break;
+    case "Starred":
+      icon = <IoMdStarOutline />;
+      break;
+    case "Draft":
+      icon = <RiDraftLine />;
+      break;
+    case "Sent":
+      icon = <AiOutlineSend />;
+      break;
+    case "Trash":
+      icon = <FaRegTrashAlt />;
+      break;
+    default:
+      break;
+  }
 
-export function AsideItem({item})
-{
-    return (
-        <article className='aside-item'>
-            {item.name === 'Inbox' && <label ><RiInboxFill /> Inbox</label>}
-            {item.name === 'Starred' && <label><IoMdStarOutline/> Starred</label>}
-            {item.name == 'Draft' && < />}
-        </article>
-    )
+  return (
+    <article className="aside-item">
+      <NavLink to={`${item.to}`}>
+        {icon} {item.name} {item.count}
+      </NavLink>
+      <Outlet/>
+    </article>
+  );
 }

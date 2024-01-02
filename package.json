@@ -3,7 +3,7 @@
   "private": false,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://miryamlevi.github.io/starter-proj/",
+  "homepage": "https://github.com/MiryamLevi/my-email-project",
   "scripts": {
     "dev": "vite",
     "predeploy": "npm run build",

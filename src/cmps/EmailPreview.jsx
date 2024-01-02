@@ -3,7 +3,7 @@
 import { CiStar } from "react-icons/ci";
 import { Link } from "react-router-dom";
 
-export function EmailPreview({ email, onEmailPreviewClicked }) {
+export function EmailPreview({ email, currentFolder, onEmailPreviewClicked }) {
   const datetime = new Date(email.sentAt * 1000).toLocaleString("en-US");
   const fromName = email.from.split("@")[0];
 
@@ -24,8 +24,8 @@ export function EmailPreview({ email, onEmailPreviewClicked }) {
       }}
     >
       <input type="checkbox" name="chooseEmail" key={email.id} onClick={onSelectEmail}/>
-        <label><CiStar key={email.id}/></label>
-      <Link to={`/inbox/${email.id}`}>
+        <label><CiStar onClick={()=>console.log("yellow")}/></label>
+      <Link to={`/${currentFolder}/${email.id}`}>
         <p style={textStyle}>
           {fromName} | {email.subject} | {datetime}{" "}
         </p>
