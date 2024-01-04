@@ -16,3 +16,14 @@
     align-items: flex-start;
     flex-shrink: 0;
 }
+
+.aside button.compose {
+        height: 60px;
+        border-radius: 20px;
+        display: 'flex';
+        align-items: 'center';
+        justify-content: 'center';
+        border: none;
+        color: #878787;
+        padding: 10px 20px;
+}

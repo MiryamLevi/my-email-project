@@ -10,15 +10,13 @@ export function EmailIndex({}) {
   const [filterBy, setFilterBy] = useState(emailService.getDefaultFilter());
   const [isAscending, setIsAscending] = useState(true);
 
-
   useEffect(() => {
     loadEmails();
-  }, [filterBy]);
+  }, [filterBy, params.folder]);
 
   async function loadEmails() {
-    const allEmails = await emailService.query(filterBy,params, isAscending);
+    const allEmails = await emailService.query(filterBy, params, isAscending);
     setEmails(allEmails);
-    console.log('allEmails', allEmails);
   }
 
   async function onAddEmail(emailToAdd) {
@@ -54,6 +52,17 @@ export function EmailIndex({}) {
     console.log("email clicked");
   }
 
+  function onToggleStar(emailID) {
+    setEmails((prevEmails) => {
+      return prevEmails.map((email) => {
+        if (email.id === emailID) {
+          email.isStarred = !email.isStarred;
+          emailService.save(email);
+        }
+      });
+    });
+  }
+
   if (!emails) return <div>"Loading..."</div>;
   const { subject } = filterBy;
   return (
@@ -64,8 +73,9 @@ export function EmailIndex({}) {
         onRemoveEmail={onRemoveEmail}
         onEmailPreviewClicked={onEmailPreviewClicked}
         params={params}
+        onToggleStar={onToggleStar}
       />
-      <Outlet context={{onAddEmail}}/>
+      <Outlet context={{ onAddEmail }} />
     </section>
   );
 }

@@ -21,14 +21,14 @@ export function EmailDetails() {
 
   async function loadEmail() {
     try{
-    const email = await emailService.getById(params.emailID);
+    const email = await emailService.getById(params.emailId);
     console.log("specific email", email);
     email.isRead = true;
     setEmail(email);
     }
     catch(error)
     {
-      navigate('/inbox')
+      navigate("/" + params.folder)
       console.log('Has issues loading email', error);
     }
   }
@@ -36,16 +36,16 @@ export function EmailDetails() {
   function onEmailDelete(emailID)
   {
     emailService.remove(emailID);
-    navigate("/inbox");
+    navigate("/" + params.folder);
   }
 
   if (!email) return <div>Loading...</div>;
-  let emailSentAt = new Date(email.sentAt * 1000).toLocaleString();
+  let emailSentAt = email.sentAt? new Date(email.sentAt * 1000).toLocaleString(): "";
 
   function onBack() {
     console.log("isRead", email.isRead);
     emailService.save(email);
-    navigate("/inbox");
+    navigate("/" + params.folder);
   }
 
   return (
@@ -58,7 +58,7 @@ export function EmailDetails() {
         <h2>{email.subject}</h2>
         <h4>From: {email.from}</h4>
         <h4>To: {email.to}</h4>
-        <h4> {emailSentAt}</h4>
+        {emailSentAt !== "" && <h4> Sent at: {emailSentAt}</h4>}
         <h3>{email.body}</h3>
       </div>
     </section>

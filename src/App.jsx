@@ -17,30 +17,11 @@ import { useState } from "react";
 export function App() {
   const [filterBy, setFilterBy] = useState(emailService.getDefaultFilter());
 
-  async function countEmailsByFilter(filterBy) {
-    const emails = await emailService.query();
-    console.log("the type", type(emails));
-    // switch (filterBy) {
-    //   case "Inbox":
-    //     return emails.filter((email) => email.to === "user@appsus.com").count;
-    //   case "Starred":
-    //     return emails.filter((email) => email.isStarred).count;
-    //   case "Trash":
-    //     return emails.filter((email) => email.removedAt).count;
-    //   case "Sent":
-    //     return emails.filter((email) => email.sentAt).count;
-
-    //   default:
-    //     break;
-    // }
-    return;
-  }
-
   return (
     <Router>
       <section className="main-app bg">
         <AppHeader />
-        <Aside countEmailsByFilter={countEmailsByFilter} />
+        <Aside />
         <main className="container main">
           <Routes>
             {/* <Route path="/" element={<Home />} /> */}
@@ -57,10 +38,13 @@ export function App() {
             <Route path="/trash" element={<EmailIndex />} />
             <Route path="/draft" element={<EmailIndex />} />
             <Route index element={<Navigate to="/inbox" />} />*/}
-            <Route path="/" element={<Navigate replace to="/inbox" />} />
+            {/* <Route path="/" element={<Navigate replace to="/inbox" />} /> */}
             <Route path="/:folder" element={<EmailIndex />}>
               <Route path="/:folder/:emailId" element={<EmailDetails />} />
-              <Route path="/:folder/edit" element={<EmailCompose />} />
+              <Route
+                path="/:folder/edit/:emailId?"
+                element={<EmailCompose />}
+              />
             </Route>
           </Routes>
         </main>

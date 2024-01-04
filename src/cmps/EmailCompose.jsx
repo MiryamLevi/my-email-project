@@ -81,7 +81,7 @@ export function EmailCompose() {
         value={body}
         onChange={handleChange}
       ></input>
-      <button type="submit" id="send" name="send">
+      <button id="send" name="send">
         Send
       </button>
     </form>

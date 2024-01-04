@@ -1,13 +1,12 @@
-
 const loggedinUser = {
   email: "user@appsus.com",
   fullName: "Mahatma Appsus",
 };
 
 const filterBy = {
-  status: "inbox/sent/star/trash",
-  txt: "puki", // no need to support complex text search
-  isRead: true / false / null, // (optional property, if missing: show all)
+  status: "inbox", //"inbox/sent/star/trash",
+  txt: "", // no need to support complex text search
+  isRead: null, // true / false  (optional property, if missing: show all)
 };
 
 import { storageService } from "./async-storage.service.js";
@@ -29,51 +28,49 @@ _createEmails();
 async function query(filterBy, params, isAscending) {
   const emails = await storageService.query(STORAGE_KEY);
   let filteredEmails = emails;
-  if (params.folder === 'starred') {
-      filteredEmails = emails.filter(email => email.isStarred);
-  } else if (params.folder === 'sent') {
-      filteredEmails = emails.filter(email => email.sentAt);
-  } else if (params.folder === 'trash') {
-      filteredEmails = emails.filter(email => email.removedAt);
-  } else if (params.folder === 'inbox') {
-      filteredEmails = emails.filter(email => !email.removedAt);
-  } else if (params.folder === 'drafts') {
-      console.log('drafts');
+  if (params.folder === "starred") {
+    filteredEmails = emails.filter((email) => email.isStarred);
+  } else if (params.folder === "sent") {
+    filteredEmails = emails.filter((email) => email.sentAt);
+  } else if (params.folder === "trash") {
+    filteredEmails = emails.filter((email) => email.removedAt);
+  } else if (params.folder === "inbox") {
+    filteredEmails = emails.filter((email) => !email.removedAt);
+  } else if (params.folder === "drafts") {
+    console.log("drafts");
   }
 
   emails.sort((a, b) =>
-      isAscending ? a.sentAt - b.sentAt : b.sentAt - a.sentAt
+    isAscending ? a.sentAt - b.sentAt : b.sentAt - a.sentAt
   );
 
   if (!filterBy) return emails;
 
-
   if (filterBy.txt) {
-      console.log(filterBy);
-      filteredEmails = filteredEmails.filter(email => {
-          const subject = email.subject;
-          const body = email.body;
-          const jointString = [subject, body].join(' ');
-          return jointString.toLowerCase().includes(filterBy.txt.toLowerCase());
-      });
+    console.log(filterBy);
+    filteredEmails = filteredEmails.filter((email) => {
+      const subject = email.subject;
+      const body = email.body;
+      const jointString = [subject, body].join(" ");
+      return jointString.toLowerCase().includes(filterBy.txt.toLowerCase());
+    });
   }
 
   if (filterBy.isRead === true) {
-      filteredEmails = filteredEmails.filter(
-          email => email.isRead === filterBy.isRead
-      );
+    filteredEmails = filteredEmails.filter(
+      (email) => email.isRead === filterBy.isRead
+    );
   }
 
-  if (filterBy.status === 'starred') {
-      filteredEmails = filteredEmails.filter(email => email.isStarred);
-  }
+  // if (filterBy.status === "star") {
+  //     filteredEmails = filteredEmails.filter(email => email.isStarred);
+  // }
 
-  if (filterBy.removedAt) {
-      filteredEmails = filteredEmails.filter(email => !email.removedAt);
-  }
+  // if (filterBy.status === "trash") {
+  //     filteredEmails = filteredEmails.filter(email => !email.removedAt);
+  // }
 
   return filteredEmails;
-
 }
 
 function getById(id) {
@@ -89,6 +86,7 @@ function save(emailToSave) {
     return storageService.put(STORAGE_KEY, emailToSave);
   } else {
     emailToSave.isOn = false;
+    emailToSave.sentAt = new Date().getTime();
     return storageService.post(STORAGE_KEY, emailToSave);
   }
 }
@@ -117,11 +115,9 @@ function createEmail(
 
 function getDefaultFilter() {
   return {
-    subject: "",
-    body: 0,
-    isStarred: false,
-    removedAt: "",
-    isRead: false,
+    status: "",
+    txt: "",
+    isRead: null,
   };
 }
 

@@ -1,14 +1,22 @@
 import { EmailPreview } from "./EmailPreview";
 
-export function EmailList({ emails, params, onEmailPreviewClicked }) {
-  console.log('emails list', emails )
+export function EmailList({ emails, params, onEmailPreviewClicked, onToggleStar }) {
+  console.log(emails);
   return (
-    <ul className="email-list">
-      {emails.map((email) => (
-        <li key={email.id}>
-          <EmailPreview email={email} currentFolder={params.folder} onEmailPreviewClicked={onEmailPreviewClicked}/>
-        </li>
-      ))}
-    </ul>
+    <table>
+      <tbody className="email-list">
+        {emails.map((email) => (
+          <>
+         
+            <EmailPreview
+              key={email.id}
+              email={email}
+              currentFolder={params.folder}
+              onEmailPreviewClicked={onEmailPreviewClicked}
+              onToggleStar={onToggleStar}
+            /></>
+        ))}
+      </tbody>
+    </table>
   );
 }

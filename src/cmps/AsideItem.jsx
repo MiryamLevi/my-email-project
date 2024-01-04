@@ -31,7 +31,6 @@ export function AsideItem({ item }) {
       <NavLink to={`${item.to}`}>
         {icon} {item.name} {item.count}
       </NavLink>
-      <Outlet/>
     </article>
   );
 }

@@ -3,7 +3,7 @@ import { AsideItem } from "./AsideItem";
 import { useEffect, useState } from "react";
 import { LuPencil } from "react-icons/lu";
 
-export function Aside({ countEmailsByFilter }) {
+export function Aside() {
   const [asideItems, setAsideItems] = useState([
     { id: 1, to: "/inbox", name: "Inbox", count: 0 },
     { id: 2, to: "/starred", name: "Starred", count: 0 },
@@ -11,18 +11,6 @@ export function Aside({ countEmailsByFilter }) {
     { id: 4, to: "/draft", name: "Draft", count: 0 },
     { id: 5, to: "/trash", name: "Trash", count: 0 },
   ]);
-
-  // useEffect(() => {
-
-  //   const updatedAsideItems = asideItems.map((item) =>
-  //   (  {
-  //     ...item,
-  //     count: countEmailsByFilter(item.name)
-  //   }
-  //   ));
-  //   setAsideItems(updatedAsideItems);
-  // }
-  // );
 
   return (
     <ul className="aside">
@@ -36,7 +24,6 @@ export function Aside({ countEmailsByFilter }) {
           <AsideItem item={item} />
         </li>
       ))}
-      <Outlet/>
     </ul>
   );
 }
