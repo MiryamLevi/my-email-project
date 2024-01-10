@@ -1,0 +1,12 @@
+.email-filter {
+    opacity: 60%;
+    background-color: white;
+    padding: 0.2cm;
+    border-radius: 1em;
+    width: 40%;
+}
+
+.filter-input {
+    border-style: none;
+    outline: none;
+}

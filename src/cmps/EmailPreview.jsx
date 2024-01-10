@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 export function EmailPreview({
   email,
   currentFolder,
-  onEmailPreviewClicked,
   onToggleStar,
 }) {
   const datetime = new Date(email.sentAt * 1000).toLocaleString("en-US");
@@ -30,9 +29,6 @@ export function EmailPreview({
         <Link to={`/${currentFolder}/${email.id}`}>
           <p
             style={textStyle}
-            onClick={() => {
-              onEmailPreviewClicked(email.id);
-            }}
           >
             {fromName} | {email.subject} | {datetime}
           </p>

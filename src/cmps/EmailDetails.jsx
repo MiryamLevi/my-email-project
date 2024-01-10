@@ -4,11 +4,6 @@ import { emailService } from "../services/emails.service";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { FaRegTrashAlt } from "react-icons/fa";
 
-{
-  /* 
-• Allow deleting an email (using the service)
-*/
-}
 
 export function EmailDetails() {
   const [email, setEmail] = useState(null);

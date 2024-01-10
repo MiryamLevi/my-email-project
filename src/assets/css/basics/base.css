@@ -40,9 +40,9 @@ a {
 
 }
 
-a:hover {
+/* a:hover {
     text-decoration: underline;
-}
+} */
 
 button {
     font-family: inherit;
@@ -81,7 +81,7 @@ input {
 .main-app {
     min-height: 100vh;
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 0fr 2fr;
     grid-template-rows: auto 1fr auto;
     grid-template-areas: "h h " "a m" "f f";
 }

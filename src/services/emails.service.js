@@ -19,6 +19,7 @@ export const emailService = {
   getById,
   createEmail,
   getDefaultFilter,
+  getFilterFromParams
 };
 
 const STORAGE_KEY = "emails";
@@ -47,7 +48,6 @@ async function query(filterBy, params, isAscending) {
   if (!filterBy) return emails;
 
   if (filterBy.txt) {
-    console.log(filterBy);
     filteredEmails = filteredEmails.filter((email) => {
       const subject = email.subject;
       const body = email.body;
@@ -72,6 +72,7 @@ async function query(filterBy, params, isAscending) {
 
   return filteredEmails;
 }
+
 
 function getById(id) {
   return storageService.get(STORAGE_KEY, id);
@@ -161,4 +162,17 @@ function _createEmails() {
     ];
     utilService.saveToStorage(STORAGE_KEY, emails);
   }
+
+
 }
+
+function getFilterFromParams(searchParams)
+{
+  const defaultFilter = getDefaultFilter();
+  const filterBy = {}
+  for (const field in defaultFilter) {
+        filterBy[field] = searchParams.get(field) || defaultFilter[field];
+  }
+  return filterBy
+}
+

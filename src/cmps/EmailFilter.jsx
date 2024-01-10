@@ -1,7 +1,6 @@
-// • Allow filtering
-// Start with Search and Read / Unread
 
 import { useEffect, useState } from "react";
+import { FaSearch } from "react-icons/fa";
 
 export function EmailFilter({filterBy, onSetFilter}) {
   const [filterByToEdit, setFilterByToEdit] = useState(filterBy);
@@ -14,16 +13,18 @@ export function EmailFilter({filterBy, onSetFilter}) {
     setFilterByToEdit((prevFilter) => ({ ...prevFilter, [field]: value }));
   }
 
-  const { subject } = filterByToEdit;
+  const { txt } = filterByToEdit;
   return (
     <form className="email-filter">
-      <label htmlFor="subject">search: </label>
+      <FaSearch />
       <input
+      className="filter-input"
         type="text"
-        id="subject"
-        name="subject"
-        value={subject}
+        id="txt"
+        name="txt"
+        value={txt}
         onChange={handleChange}
+        placeholder="Search"
       ></input>
     </form>
   );

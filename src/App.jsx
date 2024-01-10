@@ -13,6 +13,7 @@ import { EmailDetails } from "./cmps/EmailDetails";
 import { Aside } from "./cmps/Aside";
 import { emailService } from "./services/emails.service";
 import { useState } from "react";
+import { UserMsg } from "./cmps/UserMsg.jsx";
 
 export function App() {
   const [filterBy, setFilterBy] = useState(emailService.getDefaultFilter());
@@ -24,30 +25,15 @@ export function App() {
         <Aside />
         <main className="container main">
           <Routes>
-            {/* <Route path="/" element={<Home />} /> */}
-            {/* <Route path="/inbox" element={<EmailIndex />}>
-              {/* change the route */}
-            {/* <Route path="/inbox/edit" element={<EmailCompose />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/:folder" element={<EmailIndex />} >
+            <Route path="/:folder/edit/:emailId?" element={<EmailCompose />} />
             </Route>
-            <Route path="/inbox/:emailID" element={<EmailDetails />} />
-            <Route
-              path="/starred"
-              element={<EmailIndex filterBy={filterBy} />}
-            />
-            <Route path="/sent" element={<EmailIndex />} />
-            <Route path="/trash" element={<EmailIndex />} />
-            <Route path="/draft" element={<EmailIndex />} />
-            <Route index element={<Navigate to="/inbox" />} />*/}
-            {/* <Route path="/" element={<Navigate replace to="/inbox" />} /> */}
-            <Route path="/:folder" element={<EmailIndex />}>
-              <Route path="/:folder/:emailId" element={<EmailDetails />} />
-              <Route
-                path="/:folder/edit/:emailId?"
-                element={<EmailCompose />}
-              />
-            </Route>
+            <Route path="/:folder/:emailId" element={<EmailDetails />} />
           </Routes>
         </main>
+        <UserMsg/>
+
         <AppFooter />
       </section>
     </Router>

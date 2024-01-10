@@ -2,15 +2,17 @@ import { useEffect, useState } from "react";
 import { emailService } from "../services/emails.service";
 import { EmailList } from "../cmps/EmailList";
 import { EmailFilter } from "../cmps/EmailFilter";
-import { Outlet, useParams } from "react-router-dom";
+import { Outlet, useParams, useSearchParams } from "react-router-dom";
 
-export function EmailIndex({}) {
+export function EmailIndex() {
   const [emails, setEmails] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams(); 
   const params = useParams();
-  const [filterBy, setFilterBy] = useState(emailService.getDefaultFilter());
+  const [filterBy, setFilterBy] = useState(emailService.getFilterFromParams(searchParams));
   const [isAscending, setIsAscending] = useState(true);
 
   useEffect(() => {
+    setSearchParams(filterBy);
     loadEmails();
   }, [filterBy, params.folder]);
 
@@ -43,39 +45,29 @@ export function EmailIndex({}) {
     }
   }
 
-  function onEmailPreviewClicked(emailID) {
-    setEmails((prevEmails) => {
-      return prevEmails.map((email) => {
-        if (email.id === emailID) email.isRead = true;
-      });
-    });
-    console.log("email clicked");
-  }
-
   function onToggleStar(emailID) {
-    setEmails((prevEmails) => {
-      return prevEmails.map((email) => {
-        if (email.id === emailID) {
-          email.isStarred = !email.isStarred;
-          emailService.save(email);
-        }
-      });
-    });
+    // setEmails((prevEmails) => {
+    //   return prevEmails.map((email) => {
+    //     if (email.id === emailID) {
+    //       email.isStarred = !email.isStarred;
+    //       emailService.save(email);
+    //     }
+    //   });
+    // });
   }
 
   if (!emails) return <div>"Loading..."</div>;
-  const { subject } = filterBy;
+  const { txt } = filterBy;
   return (
     <section className="email-index">
-      <EmailFilter filterBy={{ subject }} onSetFilter={onSetFilter} />
+      <EmailFilter filterBy={{ txt }} onSetFilter={onSetFilter} />
       <EmailList
         emails={emails}
         onRemoveEmail={onRemoveEmail}
-        onEmailPreviewClicked={onEmailPreviewClicked}
         params={params}
         onToggleStar={onToggleStar}
       />
-      <Outlet context={{ onAddEmail }} />
+      <Outlet context={ {onAddEmail} } />
     </section>
   );
 }
